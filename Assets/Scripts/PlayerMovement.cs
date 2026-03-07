@@ -7,10 +7,12 @@ public class PlayerMovement : MonoBehaviour
     public float moveSpeed = 3.5f;
     public float rotateSpeed = 100.0f;
     private Rigidbody rb;
+    private Animator animator;
     // Start is called before the first frame update
     void Start()
     {
         rb = GetComponent<Rigidbody>();
+        animator = GetComponent<Animator>();
     }
 
     // Update is called once per frame
@@ -24,5 +26,18 @@ public class PlayerMovement : MonoBehaviour
         }
         rb.MovePosition(rb.position + transform.forward * Input.GetAxis("Vertical") * moveSpeed * Time.deltaTime +
         transform.right * Input.GetAxis("Horizontal") * moveSpeed * Time.deltaTime);
+
+        animator.SetFloat("BlendV", Input.GetAxis("Vertical"));
+        animator.SetFloat("BlendH", Input.GetAxis("Horizontal"));
+
+    }
+
+    void Update()
+    {
+        if (Input.GetButtonDown("Jump"))
+        {
+            rb.AddForce(Vector3.up * 1200 * Time.deltaTime, ForceMode.VelocityChange);
+        }
+
     }
 }
